@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { UsersModule } from './Users/users.module';
 import { ProductsModule } from './Products/products.module';
@@ -11,3 +10,4 @@ import { AuthModule } from './Auth/auth.module';
   providers: [],
 })
 export class AppModule {}
+

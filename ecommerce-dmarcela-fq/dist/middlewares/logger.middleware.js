@@ -7,11 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoggerMiddleware = void 0;
-exports.loggerGlobal = loggerGlobal;
 const common_1 = require("@nestjs/common");
 let LoggerMiddleware = class LoggerMiddleware {
     use(req, res, next) {
-        console.log(`Estas ejecutando un metodo ${req.method} en la ruta ${req.url}`);
+        const dateTime = new Date().toLocaleString();
+        console.log(`[${dateTime}]: Estas ejecutando un metodo ${req.method} en la ruta ${req.url} estado: ${res.statusCode}`);
         next();
     }
 };
@@ -19,9 +19,4 @@ exports.LoggerMiddleware = LoggerMiddleware;
 exports.LoggerMiddleware = LoggerMiddleware = __decorate([
     (0, common_1.Injectable)()
 ], LoggerMiddleware);
-function loggerGlobal(req, res, next) {
-    const dateTime = new Date().toLocaleString();
-    console.log(`[${dateTime}]: Estas ejecutando un metodo ${req.method} en la ruta ${req.url}`);
-    next();
-}
 //# sourceMappingURL=logger.middleware.js.map
