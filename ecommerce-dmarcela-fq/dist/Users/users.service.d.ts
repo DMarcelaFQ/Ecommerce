@@ -1,8 +1,10 @@
 import { UsersRepository } from "./users.repository";
+import { User } from "../Auth/dto/user.interface";
 export declare class UsersService {
     private usersRepository;
     constructor(usersRepository: UsersRepository);
-    getUsers(): Promise<{
+    getUsers(page: number, limit: number): Promise<import("../Auth/dto/user.interface").UserDto[]>;
+    getUserById(id: number): Promise<{
         id: number;
         email: string;
         name: string;
@@ -11,5 +13,8 @@ export declare class UsersService {
         phone: string;
         country: string;
         city: string;
-    }[]>;
+    }>;
+    createUser(user: User): Promise<User>;
+    updateUser(id: number, user: any): Promise<any>;
+    deleteUser(id: number): Promise<string>;
 }

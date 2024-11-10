@@ -11,7 +11,9 @@ const common_1 = require("@nestjs/common");
 let LoggerMiddleware = class LoggerMiddleware {
     use(req, res, next) {
         const dateTime = new Date().toLocaleString();
-        console.log(`[${dateTime}]: Estas ejecutando un metodo ${req.method} en la ruta ${req.url} estado: ${res.statusCode}`);
+        res.on('finish', () => {
+            console.log(`[${dateTime}]: Estas ejecutando un metodo ${req.method} en la ruta ${req.url} STATUS: ${res.statusCode}`);
+        });
         next();
     }
 };

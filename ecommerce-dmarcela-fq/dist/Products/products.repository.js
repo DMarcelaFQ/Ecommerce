@@ -14,7 +14,7 @@ let ProductsRepository = class ProductsRepository {
             {
                 id: 1,
                 name: "RascadorA",
-                deescription: "black",
+                description: "black",
                 price: 150000,
                 stock: true,
                 imgUrl: "www.blackrascador.jpg"
@@ -22,15 +22,34 @@ let ProductsRepository = class ProductsRepository {
             {
                 id: 2,
                 name: "RascadorB",
-                deescription: "white",
+                description: "white",
                 price: 150000,
                 stock: true,
                 imgUrl: "www.whiterascador.jpg"
             },
         ];
     }
-    async getProduct() {
-        return this.products;
+    async getProduct(page, limit) {
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        return this.products.slice(start, end);
+    }
+    async getProductById(id) {
+        return this.products.find((product) => product.id === id);
+    }
+    async createProduct(product) {
+        const id = this.products.length + 1;
+        this.products = [...this.products, { id, ...product }];
+        return { id, ...product };
+    }
+    async updateProduct(id, product) {
+        const oldProduct = this.products.find((product) => product.id === id);
+        const updatedProduct = { ...oldProduct, ...product };
+        return updatedProduct;
+    }
+    async deleteProduct(id) {
+        this.products = this.products.filter((product) => product.id !== id);
+        return `El producto con id:${id} ha sido eliminado`;
     }
 };
 exports.ProductsRepository = ProductsRepository;

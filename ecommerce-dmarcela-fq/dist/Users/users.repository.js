@@ -43,8 +43,36 @@ let UsersRepository = class UsersRepository {
             },
         ];
     }
-    async getUser() {
-        return this.users;
+    async getUsers(page, limit) {
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        const paginatedUsers = this.users.slice(start, end);
+        return paginatedUsers.map(user => ({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            phone: user.phone,
+            country: user.country,
+            city: user.city
+        }));
+    }
+    async getUserById(id) {
+        return this.users.find((user) => user.id === id);
+    }
+    async createUser(user) {
+        const id = this.users.length + 1;
+        this.users = [...this.users, { id, ...user }];
+        return { id, ...user };
+    }
+    async updateUser(id, user) {
+        const oldUser = this.users.find((user) => user.id === id);
+        const updatedUser = { ...oldUser, ...user };
+        return updatedUser;
+    }
+    async deleteUser(id) {
+        this.users = this.users.filter((user) => user.id !== id);
+        return `El usuario con id:${id} ha sido eliminado`;
     }
 };
 exports.UsersRepository = UsersRepository;

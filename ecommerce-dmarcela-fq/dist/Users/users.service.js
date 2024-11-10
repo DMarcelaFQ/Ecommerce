@@ -16,8 +16,20 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    getUsers() {
-        return this.usersRepository.getUser();
+    getUsers(page, limit) {
+        return this.usersRepository.getUsers(page, limit);
+    }
+    getUserById(id) {
+        return this.usersRepository.getUserById(id);
+    }
+    createUser(user) {
+        return this.usersRepository.createUser(user);
+    }
+    updateUser(id, user) {
+        return this.usersRepository.updateUser(id, user);
+    }
+    deleteUser(id) {
+        return this.usersRepository.deleteUser(id);
     }
 };
 exports.UsersService = UsersService;

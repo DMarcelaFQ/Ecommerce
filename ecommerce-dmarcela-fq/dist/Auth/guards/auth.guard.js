@@ -6,18 +6,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
+exports.AuthGuard = void 0;
 const common_1 = require("@nestjs/common");
-const auth_service_1 = require("./auth.service");
-const auth_controller_1 = require("./auth.controller");
-const users_repository_1 = require("../Users/users.repository");
-let AuthModule = class AuthModule {
+function validate(request) {
+    const authHeader = request.headers.authorization;
+    if (!authHeader)
+        return false;
+    const auth = authHeader.split(" ")[1];
+    if (!auth)
+        return false;
+    const [email, password] = auth.split(":");
+    if (!email || !password)
+        return false;
+    return true;
+}
+let AuthGuard = class AuthGuard {
+    canActivate(context) {
+        const request = context.switchToHttp().getRequest();
+        return validate(request);
+    }
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
-    (0, common_1.Module)({
-        providers: [auth_service_1.AuthService, users_repository_1.UsersRepository],
-        controllers: [auth_controller_1.AuthController]
-    })
-], AuthModule);
-//# sourceMappingURL=auth.module.js.map
+exports.AuthGuard = AuthGuard;
+exports.AuthGuard = AuthGuard = __decorate([
+    (0, common_1.Injectable)()
+], AuthGuard);
+//# sourceMappingURL=auth.guard.js.map
