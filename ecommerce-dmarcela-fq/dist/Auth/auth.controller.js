@@ -19,18 +19,18 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    createUser(user) {
-        return this.usersService.createUser(user);
+    login(userLogin) {
+        return this.authService.login(userLogin);
     }
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "createUser", null);
+], AuthController.prototype, "login", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

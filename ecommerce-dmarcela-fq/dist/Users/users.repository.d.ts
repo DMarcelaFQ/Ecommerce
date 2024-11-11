@@ -1,4 +1,4 @@
-import { User, UserDto } from "../Auth/dto/user.interface";
+import { User, UserDto, UserLoginDto } from "../dto/user.interface";
 export declare class UsersRepository {
     private users;
     getUsers(page: number, limit: number): Promise<UserDto[]>;
@@ -24,4 +24,9 @@ export declare class UsersRepository {
     }>;
     updateUser(id: number, user: any): Promise<any>;
     deleteUser(id: number): Promise<string>;
+    login(userLogin: UserLoginDto): Promise<{
+        message: string;
+        userId: number;
+        email: string;
+    }>;
 }

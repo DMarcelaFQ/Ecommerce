@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersRepository = void 0;
 const common_1 = require("@nestjs/common");
+const bcrypt = require("bcrypt");
 let UsersRepository = class UsersRepository {
     constructor() {
         this.users = [
@@ -62,7 +63,9 @@ let UsersRepository = class UsersRepository {
     }
     async createUser(user) {
         const id = this.users.length + 1;
-        this.users = [...this.users, { id, ...user }];
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+        this.users = [...this.users, { id, ...user, password: hashedPassword }];
         return { id, ...user };
     }
     async updateUser(id, user) {
@@ -73,6 +76,25 @@ let UsersRepository = class UsersRepository {
     async deleteUser(id) {
         this.users = this.users.filter((user) => user.id !== id);
         return `El usuario con id:${id} ha sido eliminado`;
+    }
+    async login(userLogin) {
+        const { email, password } = userLogin;
+        if (!email || !password) {
+            throw new common_1.BadRequestException("Email y password son requeridos");
+        }
+        const user = this.users.find((user) => user.email === email);
+        if (!user) {
+            throw new common_1.UnauthorizedException("*Email o password incorrectos");
+        }
+        const isPasswordMatching = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatching) {
+            throw new common_1.UnauthorizedException("Email o *password incorrectos");
+        }
+        return {
+            message: "Login exitoso",
+            userId: user.id,
+            email: user.email,
+        };
     }
 };
 exports.UsersRepository = UsersRepository;

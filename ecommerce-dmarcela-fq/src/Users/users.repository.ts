@@ -1,5 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { User, UserDto } from "../Auth/dto/user.interface";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { User, UserDto, UserLoginDto } from "../dto/user.interface";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersRepository {
@@ -60,11 +61,15 @@ export class UsersRepository {
     }
     
     async createUser(user: User) {
-        const id = this.users.length + 1; 
-        this.users = [... this.users, {id, ...user}]
+        const id = this.users.length + 1;
+        
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
+        this.users = [... this.users, {id, ...user, password: hashedPassword}]
         return {id, ...user};
     }
-
+    
     async updateUser(id: number, user: any) {
         const oldUser = this.users.find((user) => user.id === id);
         const updatedUser = {...oldUser, ...user};
@@ -74,5 +79,29 @@ export class UsersRepository {
     async deleteUser(id: number) {
         this.users = this.users.filter((user) => user.id !== id);
         return `El usuario con id:${id} ha sido eliminado`
+    }
+    
+    async login(userLogin: UserLoginDto) {
+        const { email, password } = userLogin;
+
+        if(!email || !password) {
+            throw new BadRequestException("Email y password son requeridos");
+        }
+
+        const user = this.users.find((user) => user.email === email);
+        if(!user) {
+            throw new UnauthorizedException("*Email o password incorrectos");
+        }
+
+        const isPasswordMatching = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatching) {
+            throw new UnauthorizedException("Email o *password incorrectos");
+        }
+
+        return {
+            message: "Login exitoso",
+            userId: user.id,
+            email: user.email,
+        };
     }
 }

@@ -7,6 +7,7 @@ export interface User {
     country: string;
     city: string;
 }
+
 export interface UserDto {
     id: number;
     email: string;
@@ -16,7 +17,8 @@ export interface UserDto {
     country: string;
     city: string;
 }
+
 export interface UserLoginDto {
     email: string;
-    passsword: string;
+    password: string;
 }
