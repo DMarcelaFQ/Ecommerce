@@ -21,27 +21,27 @@ __decorate([
     __metadata("design:type", String)
 ], Product.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 50, nullable: false }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, unique: true, nullable: false }),
     __metadata("design:type", String)
 ], Product.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)("text", { nullable: false }),
+    (0, typeorm_1.Column)({ type: "text", nullable: false }),
     __metadata("design:type", String)
 ], Product.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)("decimal", { precision: 10, scale: 2, nullable: false }),
+    (0, typeorm_1.Column)({ type: "decimal", precision: 10, scale: 2, nullable: false }),
     __metadata("design:type", Number)
 ], Product.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)("int", { nullable: false }),
+    (0, typeorm_1.Column)({ type: "int", nullable: false }),
     __metadata("design:type", Number)
 ], Product.prototype, "stock", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: "https://example.com/default-image.jpg" }),
+    (0, typeorm_1.Column)({ type: "text", nullable: false, default: "https://example.com/default-image.jpg" }),
     __metadata("design:type", String)
 ], Product.prototype, "imgUrl", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => categories_entity_1.Category, (category) => category.products, { nullable: false }),
+    (0, typeorm_1.ManyToOne)(() => categories_entity_1.Category, (category) => category.products),
     (0, typeorm_1.JoinColumn)({ name: 'category_id' }),
     __metadata("design:type", categories_entity_1.Category)
 ], Product.prototype, "category", void 0);
@@ -50,6 +50,6 @@ __decorate([
     __metadata("design:type", Array)
 ], Product.prototype, "orderDetails", void 0);
 exports.Product = Product = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ name: 'PRODUCTS' })
 ], Product);
 //# sourceMappingURL=products.entity.js.map

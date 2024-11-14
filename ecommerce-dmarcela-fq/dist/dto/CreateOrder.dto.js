@@ -9,26 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Category = void 0;
-const typeorm_1 = require("typeorm");
-const products_entity_1 = require("./products.entity");
-let Category = class Category {
-};
-exports.Category = Category;
+exports.CreateOrderDto = void 0;
+const class_validator_1 = require("class-validator");
+class CreateOrderDto {
+}
+exports.CreateOrderDto = CreateOrderDto;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
-], Category.prototype, "id", void 0);
+], CreateOrderDto.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 50, unique: true, nullable: false }),
-    __metadata("design:type", String)
-], Category.prototype, "name", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => products_entity_1.Product, (product) => product.category),
-    (0, typeorm_1.JoinColumn)({ name: 'products_id' }),
-    __metadata("design:type", Array)
-], Category.prototype, "products", void 0);
-exports.Category = Category = __decorate([
-    (0, typeorm_1.Entity)({ name: 'CATEGORIES' })
-], Category);
-//# sourceMappingURL=categories.entity.js.map
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayNotEmpty)(),
+    (0, class_validator_1.ValidateNested)({ each: true }),
+    __metadata("design:type", Object)
+], CreateOrderDto.prototype, "products", void 0);
+//# sourceMappingURL=CreateOrder.dto.js.map

@@ -3,28 +3,28 @@ import { Category } from "./categories.entity";
 import { OrderDetail } from "./orderDetails.entity";
 
 
-@Entity()
+@Entity({name:'PRODUCTS'})
 export class Product {
 
     @PrimaryGeneratedColumn("uuid")
     id:string;
 
-    @Column({ length: 50, nullable: false })
+    @Column({ type:'varchar', length: 50, unique:true, nullable: false })
     name:string;
 
-    @Column("text", { nullable: false })
+    @Column({type:"text",  nullable: false })
     description:string;
 
-    @Column("decimal", { precision: 10, scale: 2, nullable: false })
+    @Column({type: "decimal", precision: 10, scale: 2, nullable: false })
     price:number;
 
-    @Column("int", { nullable: false })
+    @Column({type:"int",  nullable: false })
     stock:number;
 
-    @Column({ default: "https://example.com/default-image.jpg" })
+    @Column({type:"text", nullable:false, default: "https://example.com/default-image.jpg" })
     imgUrl:string;
 
-    @ManyToOne(() => Category, (category) => category.products, { nullable: false }) 
+    @ManyToOne(() => Category, (category) => category.products) 
     @JoinColumn({name: 'category_id'})
     category: Category;
 

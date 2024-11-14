@@ -13,38 +13,24 @@ const products_module_1 = require("./Products/products.module");
 const auth_module_1 = require("./Auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-const categories_entity_1 = require("./entities/categories.entity");
-const users_entity_1 = require("./entities/users.entity");
-const products_entity_1 = require("./entities/products.entity");
-const orders_entity_1 = require("./entities/orders.entity");
-const orderDetails_entity_1 = require("./entities/orderDetails.entity");
+const typeorm_2 = require("./config/typeorm");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            users_module_1.UsersModule,
+            products_module_1.ProductsModule,
+            auth_module_1.AuthModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: './.env.development',
+                load: [typeorm_2.default]
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_1.ConfigService],
-                useFactory: (configService) => ({
-                    type: 'postgres',
-                    database: configService.get('DB_NAME'),
-                    host: configService.get('DB_HOST'),
-                    port: configService.get('DB_PORT'),
-                    username: configService.get('DB_USER'),
-                    password: configService.get('DB_PASSWORD'),
-                    entities: [users_entity_1.User, products_entity_1.Product, orders_entity_1.Order, orderDetails_entity_1.OrderDetail, categories_entity_1.Category],
-                    synchronize: true,
-                    logging: true
-                })
-            }),
-            users_module_1.UsersModule,
-            products_module_1.ProductsModule,
-            auth_module_1.AuthModule
+                useFactory: (configService) => configService.get('typeorm')
+            })
         ],
         controllers: [],
         providers: [],

@@ -16,35 +16,35 @@ let User = class User {
 };
 exports.User = User;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 50, unique: true, nullable: false }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, unique: true, nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 50, nullable: false }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 20, nullable: false }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 20, nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)("text"),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], User.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.Column)("bigint"),
+    (0, typeorm_1.Column)({ type: 'bigint' }),
     __metadata("design:type", String)
 ], User.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 50, nullable: true }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "country", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 50, nullable: true }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
@@ -53,6 +53,6 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "orders", void 0);
 exports.User = User = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ name: 'USERS' })
 ], User);
 //# sourceMappingURL=users.entity.js.map

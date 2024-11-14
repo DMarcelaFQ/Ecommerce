@@ -3,20 +3,20 @@ import { User } from "./users.entity";
 import { OrderDetail } from "./orderDetails.entity";
 
 
-@Entity()
+@Entity({name:'ORDERS'})
 export class Order {
 
     @PrimaryGeneratedColumn("uuid") 
     id: string;
 
-    @ManyToOne(() => User, (user) => user.orders, { nullable: false })
-    @JoinColumn({name: 'User_id'})
-    user: User;
-
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }) 
     date: Date;
 
-    @OneToOne(() => OrderDetail, { cascade: true })
-    @JoinColumn({name: 'orderDetail_id'})
+    @ManyToOne(() => User, (user) => user.orders)
+    @JoinColumn({name: 'user_id'})
+    user: User;
+
+    @OneToOne(() => OrderDetail, (orderDetails)=> orderDetails.order)
+    @JoinColumn({name: 'orderDetails_id'})
     orderDetail: OrderDetail;
 }

@@ -21,20 +21,20 @@ __decorate([
     __metadata("design:type", String)
 ], Order.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => users_entity_1.User, (user) => user.orders, { nullable: false }),
-    (0, typeorm_1.JoinColumn)({ name: 'User_id' }),
-    __metadata("design:type", users_entity_1.User)
-], Order.prototype, "user", void 0);
-__decorate([
     (0, typeorm_1.Column)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Order.prototype, "date", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => orderDetails_entity_1.OrderDetail, { cascade: true }),
-    (0, typeorm_1.JoinColumn)({ name: 'orderDetail_id' }),
+    (0, typeorm_1.ManyToOne)(() => users_entity_1.User, (user) => user.orders),
+    (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
+    __metadata("design:type", users_entity_1.User)
+], Order.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => orderDetails_entity_1.OrderDetail, (orderDetails) => orderDetails.order),
+    (0, typeorm_1.JoinColumn)({ name: 'orderDetails_id' }),
     __metadata("design:type", orderDetails_entity_1.OrderDetail)
 ], Order.prototype, "orderDetail", void 0);
 exports.Order = Order = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ name: 'ORDERS' })
 ], Order);
 //# sourceMappingURL=orders.entity.js.map
