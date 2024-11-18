@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/swagger';
 import { IsEmail, IsInt, IsNotEmpty, IsString, Matches, MaxLength, MinLength, minLength,  } from 'class-validator'
 
 export class CreateUserDto {
@@ -18,7 +19,7 @@ export class CreateUserDto {
         message: 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales: !@#$%^&*'
     })
     @MinLength(8)
-    @MaxLength(15)
+    // @MaxLength(15)
     password: string;
     
     @IsNotEmpty()
@@ -44,7 +45,7 @@ export class CreateUserDto {
     city: string;
 }
 
-export class loginUserDto extends CreateUserDto {
-    'email';
-    'password'
-}
+export class loginUserDto extends PickType(
+    CreateUserDto, 
+    ['email','password']
+) {}

@@ -1,25 +1,16 @@
-import { ProductsRepository } from "./products.repository";
-import { Product } from "./product.interface";
+import { Product } from "src/entities/products.entity";
+import { Repository } from "typeorm";
+import { Category } from "src/entities/categories.entity";
 export declare class ProductsService {
     private productsRepository;
-    constructor(productsRepository: ProductsRepository);
-    getProducts(page: number, limit: number): Promise<{
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }[]>;
-    getProductById(id: number): Promise<{
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }>;
+    private categoriesRepository;
+    constructor(productsRepository: Repository<Product>, categoriesRepository: Repository<Category>);
+    addProducts(): Promise<string>;
+    getProducts(page: number, limit: number): Promise<Product[]>;
+    getProductById(id: string): Promise<Product>;
     createProduct(product: Product): Promise<Product>;
-    updateProduct(id: number, product: any): Promise<any>;
-    deleteProduct(id: number): Promise<string>;
+    updateProduct(id: string, product: Partial<Product>): Promise<Product>;
+    deleteProduct(id: string): Promise<{
+        message: string;
+    }>;
 }

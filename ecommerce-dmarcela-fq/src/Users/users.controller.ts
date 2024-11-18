@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
-import { User } from "../dto/user.interface";
 import { AuthGuard } from "src/Auth/guards/auth.guard";
+import { CreateUserDto } from "src/dto/CreateUser.dto";
 
 @Controller('users')
 export class UsersController {
@@ -18,25 +18,25 @@ export class UsersController {
 
     @Get(':id')
     @UseGuards(AuthGuard)
-    getUserById(@Param('id') id: string) {
+    getUserById(@Param('id', ParseUUIDPipe) id: string) {
         return this.usersService.getUserById(Number(id));
     }
 
     @HttpCode(201)
     @Post()
-    createUser(@Body() user:User){
+    createUser(@Body() user:CreateUserDto){
         return this.usersService.createUser(user);
     }
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    updateUser(@Param('id') id:string, @Body() user: any){
+    updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: CreateUserDto){
         return this.usersService.updateUser(Number(id), user)
     }
 
     @Delete(':id')
     @UseGuards(AuthGuard)
-    deleteUser(@Param('id') id:string){
+    deleteUser(@Param('id', ParseUUIDPipe) id:string){
         return this.usersService.deleteUser(Number(id))
     }
 }

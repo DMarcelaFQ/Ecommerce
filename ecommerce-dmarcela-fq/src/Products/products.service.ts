@@ -1,29 +1,85 @@
-import { Injectable } from "@nestjs/common";
-import { ProductsRepository } from "./products.repository";
-import { Product } from "./product.interface";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import * as data from "../assets/data.json"
+import { InjectRepository } from "@nestjs/typeorm";
+import { Product } from "src/entities/products.entity";
+import { Repository } from "typeorm";
+import { Category } from "src/entities/categories.entity";
 
 @Injectable()
 export class ProductsService {
     
-    constructor(private productsRepository: ProductsRepository) {}
+    constructor(
+        @InjectRepository(Product) 
+        private productsRepository: Repository<Product>,
+        @InjectRepository(Category)
+        private categoriesRepository: Repository<Category>
+    ) {}
     
-    getProducts(page:number, limit:number) {
-        return this.productsRepository.getProduct(page, limit);
-    }
-    
-    getProductById(id: number) {
-        return this.productsRepository.getProductById(id);
-    }
-    
-    createProduct(product: Product): Promise<Product> {
-        return this.productsRepository.createProduct(product);
+    async addProducts() {
+        const categories = await this.categoriesRepository.find();
+
+        data?.map(async (element) => {
+            const category = categories.find(
+                (category) => category.name === element.category,
+            )
+            const product = new Product();
+            product.name = element.name;
+            product.description = element.description;
+            product.price = element.price;
+            product.stock = element.stock;
+            product.category = category;
+
+            await this.productsRepository
+            .createQueryBuilder()
+            .insert()
+            .into(Product)
+            .values(product)
+            .orUpdate(['description', 'price', 'stock'], ['name'])
+            .execute()
+        });
+        return "Products added"
+
     }
 
-    updateProduct(id: number, product: any) {
-        return this.productsRepository.updateProduct(id, product);
+    async getProducts(page:number, limit:number) {
+        const start = (page - 1)*limit;
+        
+        return await this.productsRepository.find({skip: start, take: limit});
     }
+     
+    async getProductById(id: string) {
+        
+        const product = await this.productsRepository.findOne({
+            where: { id: id }
+        });
+        if (!product) {
+            throw new NotFoundException(`Producto con ID ${id} no encontrado.`);
+        }
+        return product
+    }
+    
+    async createProduct(product: Product): Promise<Product> {
+        const newProduct = this.productsRepository.create(product);
+        return await this.productsRepository.save(newProduct);
+    }
+    
+    async updateProduct(id: string, product: Partial<Product>): Promise<Product> {
+        const productUpdate = await this.productsRepository.findOneBy({ id });
+        if (!productUpdate) {
+            throw new NotFoundException(`Producto con ID ${id} no encontrado.`);
+        }
+        Object.assign(productUpdate, product);
+        return await this.productsRepository.save(productUpdate);
+    }
+    
+    async deleteProduct(id: string) {
+        const product = await this.productsRepository.findOneBy({ id });
+        if (!product) {
+        throw new NotFoundException(`Producto con ID ${id} no encontrado.`);
+        }
 
-    deleteProduct(id: number) {
-        return this.productsRepository.deleteProduct(id);
+        await this.productsRepository.remove(product);
+        return { message: `Producto con ID ${id} eliminado correctamente.` };
     }
+    
 }

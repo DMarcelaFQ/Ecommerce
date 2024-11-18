@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUserDto = exports.CreateUserDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateUserDto {
 }
@@ -33,7 +34,6 @@ __decorate([
         message: 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales: !@#$%^&*'
     }),
     (0, class_validator_1.MinLength)(8),
-    (0, class_validator_1.MaxLength)(15),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
@@ -62,7 +62,7 @@ __decorate([
     (0, class_validator_1.MaxLength)(20),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "city", void 0);
-class loginUserDto extends CreateUserDto {
+class loginUserDto extends (0, swagger_1.PickType)(CreateUserDto, ['email', 'password']) {
 }
 exports.loginUserDto = loginUserDto;
 //# sourceMappingURL=CreateUser.dto.js.map

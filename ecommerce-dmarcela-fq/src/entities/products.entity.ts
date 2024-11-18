@@ -21,7 +21,7 @@ export class Product {
     @Column({type:"int",  nullable: false })
     stock:number;
 
-    @Column({type:"text", nullable:false, default: "https://example.com/default-image.jpg" })
+    @Column({type:"text", nullable:true, default: "https://example.com/default-image.jpg" })
     imgUrl:string;
 
     @ManyToOne(() => Category, (category) => category.products) 

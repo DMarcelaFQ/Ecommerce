@@ -13,6 +13,8 @@ const products_module_1 = require("./Products/products.module");
 const auth_module_1 = require("./Auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
+const categories_module_1 = require("./categories/categories.module");
+const orders_module_1 = require("./orders/orders.module");
 const typeorm_2 = require("./config/typeorm");
 let AppModule = class AppModule {
 };
@@ -30,7 +32,9 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_1.ConfigService],
                 useFactory: (configService) => configService.get('typeorm')
-            })
+            }),
+            categories_module_1.CategoriesModule,
+            orders_module_1.OrdersModule
         ],
         controllers: [],
         providers: [],

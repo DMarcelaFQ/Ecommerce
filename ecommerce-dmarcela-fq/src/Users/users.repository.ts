@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { User, UserDto, UserLoginDto } from "../dto/user.interface";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
@@ -38,7 +37,7 @@ export class UsersRepository {
         },
     ];
     
-    async getUsers(page:number, limit:number): Promise<UserDto[]> {
+    async getUsers(page:number, limit:number): Promise<any> {
         
         const start = (page - 1)*limit;
         const end = start + limit;
@@ -60,7 +59,7 @@ export class UsersRepository {
         return this.users.find((user) => user.id === id);
     }
     
-    async createUser(user: User) {
+    async createUser(user: any) {
         const id = this.users.length + 1;
         
         const saltRounds = 10;
@@ -81,7 +80,7 @@ export class UsersRepository {
         return `El usuario con id:${id} ha sido eliminado`
     }
     
-    async login(userLogin: UserLoginDto) {
+    async login(userLogin: any) {
         const { email, password } = userLogin;
 
         if(!email || !password) {

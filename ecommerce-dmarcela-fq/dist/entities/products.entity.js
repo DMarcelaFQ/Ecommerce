@@ -37,7 +37,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Product.prototype, "stock", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "text", nullable: false, default: "https://example.com/default-image.jpg" }),
+    (0, typeorm_1.Column)({ type: "text", nullable: true, default: "https://example.com/default-image.jpg" }),
     __metadata("design:type", String)
 ], Product.prototype, "imgUrl", void 0);
 __decorate([

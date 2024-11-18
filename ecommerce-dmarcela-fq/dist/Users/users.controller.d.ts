@@ -1,9 +1,9 @@
 import { UsersService } from "./users.service";
-import { User } from "../dto/user.interface";
+import { CreateUserDto } from "src/dto/CreateUser.dto";
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    getUsers(page: string, limit: string): Promise<import("../dto/user.interface").UserDto[]>;
+    getUsers(page: string, limit: string): Promise<any>;
     getUserById(id: string): Promise<{
         id: number;
         email: string;
@@ -14,7 +14,7 @@ export declare class UsersController {
         country: string;
         city: string;
     }>;
-    createUser(user: User): Promise<User>;
-    updateUser(id: string, user: any): Promise<any>;
+    createUser(user: CreateUserDto): Promise<any>;
+    updateUser(id: string, user: CreateUserDto): Promise<any>;
     deleteUser(id: string): Promise<string>;
 }

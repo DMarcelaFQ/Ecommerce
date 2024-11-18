@@ -1,9 +1,9 @@
-import { UserLoginDto } from "../dto/user.interface";
 import { AuthService } from "./auth.service";
+import { loginUserDto } from "src/dto/CreateUser.dto";
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    login(userLogin: UserLoginDto): Promise<{
+    login(userLogin: loginUserDto): Promise<{
         message: string;
         userId: number;
         email: string;

@@ -4,6 +4,8 @@ import { ProductsModule } from './Products/products.module';
 import { AuthModule } from './Auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CategoriesModule } from './categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
 import typeorm from './config/typeorm';
 
 
@@ -20,7 +22,11 @@ import typeorm from './config/typeorm';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => configService.get('typeorm')
-    })
+    }),
+    
+    CategoriesModule,
+    
+    OrdersModule
   ],
 
   controllers: [],
