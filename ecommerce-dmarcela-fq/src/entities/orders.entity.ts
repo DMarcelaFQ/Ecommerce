@@ -16,7 +16,7 @@ export class Order {
     @JoinColumn({name: 'user_id'})
     user: User;
 
-    @OneToOne(() => OrderDetail, (orderDetails)=> orderDetails.order)
+    @OneToOne(() => OrderDetail, (orderDetails)=> orderDetails.order, { cascade: true })
     @JoinColumn({name: 'orderDetails_id'})
     orderDetail: OrderDetail;
 }

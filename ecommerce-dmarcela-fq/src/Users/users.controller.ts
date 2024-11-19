@@ -3,6 +3,7 @@ import { UsersService } from "./users.service";
 import { AuthGuard } from "src/Auth/guards/auth.guard";
 import { CreateUserDto } from "src/dto/CreateUser.dto";
 
+
 @Controller('users')
 export class UsersController {
     constructor( private readonly usersService: UsersService) {}
@@ -19,7 +20,7 @@ export class UsersController {
     @Get(':id')
     @UseGuards(AuthGuard)
     getUserById(@Param('id', ParseUUIDPipe) id: string) {
-        return this.usersService.getUserById(Number(id));
+        return this.usersService.getUserById(id);
     }
 
     @HttpCode(201)
@@ -30,13 +31,13 @@ export class UsersController {
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: CreateUserDto){
-        return this.usersService.updateUser(Number(id), user)
+    updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: Partial<CreateUserDto>){
+        return this.usersService.updateUser(id, user)
     }
 
     @Delete(':id')
     @UseGuards(AuthGuard)
     deleteUser(@Param('id', ParseUUIDPipe) id:string){
-        return this.usersService.deleteUser(Number(id))
+        return this.usersService.deleteUser(id)
     }
 }

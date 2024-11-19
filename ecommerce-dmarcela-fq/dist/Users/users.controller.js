@@ -28,16 +28,16 @@ let UsersController = class UsersController {
         return this.usersService.getUsers(1, 5);
     }
     getUserById(id) {
-        return this.usersService.getUserById(Number(id));
+        return this.usersService.getUserById(id);
     }
     createUser(user) {
         return this.usersService.createUser(user);
     }
     updateUser(id, user) {
-        return this.usersService.updateUser(Number(id), user);
+        return this.usersService.updateUser(id, user);
     }
     deleteUser(id) {
-        return this.usersService.deleteUser(Number(id));
+        return this.usersService.deleteUser(id);
     }
 };
 exports.UsersController = UsersController;
@@ -72,7 +72,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, CreateUser_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUser", null);
 __decorate([

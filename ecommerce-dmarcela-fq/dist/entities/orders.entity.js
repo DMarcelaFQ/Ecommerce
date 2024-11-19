@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", users_entity_1.User)
 ], Order.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => orderDetails_entity_1.OrderDetail, (orderDetails) => orderDetails.order),
+    (0, typeorm_1.OneToOne)(() => orderDetails_entity_1.OrderDetail, (orderDetails) => orderDetails.order, { cascade: true }),
     (0, typeorm_1.JoinColumn)({ name: 'orderDetails_id' }),
     __metadata("design:type", orderDetails_entity_1.OrderDetail)
 ], Order.prototype, "orderDetail", void 0);

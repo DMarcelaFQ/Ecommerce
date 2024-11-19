@@ -30,26 +30,30 @@ let OrdersService = class OrdersService {
     async addOrder(userId, products) {
         const user = await this.usersRepository.findOneBy({ id: userId });
         if (!user) {
-            throw new Error(`Usuario con ID ${userId} no encontrado`);
+            throw new common_1.NotFoundException(`Usuario con ID ${userId} no encontrado`);
         }
+        let totalPrice = 0;
         const order = new orders_entity_1.Order();
         order.date = new Date();
         order.user = user;
         const newOrder = await this.orderRepository.save(order);
-        let totalPrice = 0;
         const productsOrder = await Promise.all(products.map(async (element) => {
-            const product = await this.productsRepository.findOne({ where: { id: element.id, stock: (0, typeorm_2.MoreThanOrEqual)(1) } });
+            const product = await this.productsRepository.findOne({
+                where: { id: element.id, stock: (0, typeorm_2.MoreThanOrEqual)(1) }
+            });
             if (!product) {
-                throw new Error(`Producto con ID ${element.id} sin stock.`);
+                throw new common_1.BadRequestException(`Producto con ID ${element.id} sin stock.`);
             }
+            totalPrice += Number(product.price);
             await this.productsRepository.update({ id: element.id }, { stock: product.stock - 1 });
-            totalPrice += Number(element.price);
             return product;
         }));
         const orderDetail = new orderDetails_entity_1.OrderDetail();
         orderDetail.order = newOrder;
-        orderDetail.price = Number(Number(totalPrice).toFixed(2));
+        orderDetail.price = Number(totalPrice.toFixed(2));
         orderDetail.products = productsOrder;
+        newOrder.orderDetail = orderDetail;
+        await this.orderRepository.save(newOrder);
         await this.orderDetailsRepository.save(orderDetail);
         return await this.orderRepository.findOne({
             where: { id: newOrder.id },

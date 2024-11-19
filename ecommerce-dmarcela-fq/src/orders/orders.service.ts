@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderDetail } from 'src/entities/orderDetails.entity';
 import { Order } from 'src/entities/orders.entity';
@@ -23,42 +23,43 @@ export class OrdersService {
     async addOrder(userId:string, products:any) {
         const user = await this.usersRepository.findOneBy({id:userId})
         if (!user) {
-            throw new Error(`Usuario con ID ${userId} no encontrado`);
+            throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
         }
-
+        
+        let totalPrice:number = 0;
+    
         const order = new Order();
         order.date = new Date();
         order.user = user;
         const newOrder = await this.orderRepository.save(order);
 
-        let totalPrice:number = 0;
-        // const productsOrder = [];
-
         const productsOrder = await Promise.all(
             products.map(async (element: Product) => {
-                const product = await this.productsRepository.findOne({where: {id: element.id, stock: MoreThanOrEqual(1) }});
+                const product = await this.productsRepository.findOne({
+                    where: {id: element.id, stock: MoreThanOrEqual(1) }});
                 if (!product) {
-                    throw new Error(`Producto con ID ${element.id} sin stock.`);
+                    throw new BadRequestException(`Producto con ID ${element.id} sin stock.`);
                 }
 
-                // product.stock -= 1;
-                // await this.productsRepository.save(product);
+                totalPrice += Number(product.price);
                 
                 await this.productsRepository.update(
                     {id: element.id},
                     {stock: product.stock -1}
                 )
 
-                totalPrice += Number(element.price);
-                // productsOrder.push(product);
                 return product 
             }), // encontrar por id y stock, sumar precio y reducir el stock
         )
 
         const orderDetail = new OrderDetail();
         orderDetail.order = newOrder;
-        orderDetail.price = Number(Number(totalPrice).toFixed(2));
+        orderDetail.price = Number(totalPrice.toFixed(2));
         orderDetail.products = productsOrder;
+
+        newOrder.orderDetail = orderDetail;
+
+        await this.orderRepository.save(newOrder);
         await this.orderDetailsRepository.save(orderDetail);
 
         return await this.orderRepository.findOne({

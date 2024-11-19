@@ -1,28 +1,82 @@
-import { Injectable } from "@nestjs/common";
-import { UsersRepository } from "./users.repository";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "src/entities/users.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class UsersService {
     
-    constructor(private usersRepository: UsersRepository) {}
+    constructor(
+        @InjectRepository(User)
+        private usersRepository: Repository<User>
+    ) {}
     
-    getUsers(page:number, limit:number) {
-        return this.usersRepository.getUsers(page, limit);
+    async getUsers(page:number, limit:number): Promise<User[]> {
+        const start = (page - 1)*limit;
+        
+        const users = await this.usersRepository.find({
+            skip: start, 
+            take: limit,
+            select: ['id', 'name', 'email', 'address', 'phone', 'country', 'city'],
+        });
+        if(users.length === 0) {
+            throw new NotFoundException('No se encontraron usuarios en la base de datos.');
+        };
+        return users;
     }
     
-    getUserById(id: number) {
-        return this.usersRepository.getUserById(id);
+    async getUserById(id: string) {
+        const userFound = await this.usersRepository.findOne({
+            where: { id: id },
+            relations: ['orders'],
+            select: ['id', 'name', 'email', 'address', 'phone', 'country', 'city'],
+        });
+        if (!userFound) {
+            throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);
+        }
+        return {
+            ...userFound,
+            orders: userFound.orders.map(order => ({
+                id: order.id,
+                date: order.date
+            })),
+        };
     }
     
-    createUser(user: any): Promise<any> {
-        return this.usersRepository.createUser(user);
+    async createUser(user: any): Promise<{ message: string}> {
+        const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
+        if (existingUser) {
+            throw new ConflictException(`El correo ${user.email} ya está registrado.`);
+        }
+        
+        const newUser = this.usersRepository.create(user);
+        await this.usersRepository.save(newUser);
+
+        return {
+            message: "Usuario creado con éxito",
+        };
     }
 
-    updateUser(id: number, user: any) {
-        return this.usersRepository.updateUser(id, user);
+    async updateUser(id: string, user: any): Promise<{ message: string }> {
+        const userUpdate = await this.usersRepository.findOneBy({id});
+        if (!userUpdate) {
+            throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);
+        }
+        Object.assign(userUpdate, user);
+        await this.usersRepository.save(userUpdate)
+        return {
+            message: `El usuario con ID ${id} ha sido modificado con exito`
+        }
     }
 
-    deleteUser(id: number) {
-        return this.usersRepository.deleteUser(id);
+    async deleteUser(id: string): Promise<{ message: string }> {
+        const userFound = await this.usersRepository.findOneBy({id});
+        if (!userFound) {
+            throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);
+        }
+        await this.usersRepository.remove(userFound);
+        return{
+            message: `El usuario con ID ${id} ha sido eliminado.`
+        }
     }
 }

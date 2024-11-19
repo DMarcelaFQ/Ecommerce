@@ -43,10 +43,14 @@ export class ProductsService {
 
     async getProducts(page:number, limit:number) {
         const start = (page - 1)*limit;
-        
-        return await this.productsRepository.find({skip: start, take: limit});
+        const products = await this.productsRepository.find({skip: start, take: limit});
+
+        if(products.length === 0) {
+            throw new NotFoundException('No se encontraron productos en la base de datos.');
+        }
+        return products;
     }
-     
+
     async getProductById(id: string) {
         
         const product = await this.productsRepository.findOne({

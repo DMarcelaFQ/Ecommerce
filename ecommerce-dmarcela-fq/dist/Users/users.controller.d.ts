@@ -3,9 +3,13 @@ import { CreateUserDto } from "src/dto/CreateUser.dto";
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    getUsers(page: string, limit: string): Promise<any>;
+    getUsers(page: string, limit: string): Promise<import("../entities/users.entity").User[]>;
     getUserById(id: string): Promise<{
-        id: number;
+        orders: {
+            id: string;
+            date: Date;
+        }[];
+        id: string;
         email: string;
         name: string;
         password: string;
@@ -14,7 +18,13 @@ export declare class UsersController {
         country: string;
         city: string;
     }>;
-    createUser(user: CreateUserDto): Promise<any>;
-    updateUser(id: string, user: CreateUserDto): Promise<any>;
-    deleteUser(id: string): Promise<string>;
+    createUser(user: CreateUserDto): Promise<{
+        message: string;
+    }>;
+    updateUser(id: string, user: Partial<CreateUserDto>): Promise<{
+        message: string;
+    }>;
+    deleteUser(id: string): Promise<{
+        message: string;
+    }>;
 }

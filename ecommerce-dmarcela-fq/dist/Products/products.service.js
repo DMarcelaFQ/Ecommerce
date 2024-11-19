@@ -46,7 +46,11 @@ let ProductsService = class ProductsService {
     }
     async getProducts(page, limit) {
         const start = (page - 1) * limit;
-        return await this.productsRepository.find({ skip: start, take: limit });
+        const products = await this.productsRepository.find({ skip: start, take: limit });
+        if (products.length === 0) {
+            throw new common_1.NotFoundException('No se encontraron productos en la base de datos.');
+        }
+        return products;
     }
     async getProductById(id) {
         const product = await this.productsRepository.findOne({
