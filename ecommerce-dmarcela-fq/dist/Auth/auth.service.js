@@ -8,21 +8,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const users_repository_1 = require("../Users/users.repository");
+const typeorm_1 = require("@nestjs/typeorm");
+const users_entity_1 = require("../entities/users.entity");
+const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    login(userLogin) {
-        return this.usersRepository.login(userLogin);
+    async login(userLogin) {
+        const user = await this.usersRepository.findOne({ where: { email: userLogin.email } });
+        if (!user) {
+            throw new common_1.NotFoundException(`No se puede iniciar sesion. Email o password incorrectos`);
+        }
+        const passwordMatch = await bcrypt.compare(userLogin.password, user.password);
+        if (!passwordMatch) {
+            throw new common_1.NotFoundException(`No se puede iniciar sesion. Email o password incorrectos`);
+        }
+        return {
+            message: "Usuario loggeado con éxito",
+            user: user.id
+        };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
+    __param(0, (0, typeorm_1.InjectRepository)(users_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

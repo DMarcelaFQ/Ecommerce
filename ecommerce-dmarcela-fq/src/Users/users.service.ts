@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/entities/users.entity";
 import { Repository } from "typeorm";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +12,7 @@ export class UsersService {
         private usersRepository: Repository<User>
     ) {}
     
-    async getUsers(page:number, limit:number): Promise<User[]> {
+    async getUsers(page:number, limit:number) {
         const start = (page - 1)*limit;
         
         const users = await this.usersRepository.find({
@@ -43,13 +44,19 @@ export class UsersService {
         };
     }
     
-    async createUser(user: any): Promise<{ message: string}> {
+    async createUser(user: any) {
         const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
         if (existingUser) {
             throw new ConflictException(`El correo ${user.email} ya está registrado.`);
         }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
         
-        const newUser = this.usersRepository.create(user);
+        const newUser = this.usersRepository.create({
+            ...user,
+            password: hashedPassword,
+        });
         await this.usersRepository.save(newUser);
 
         return {
@@ -57,7 +64,7 @@ export class UsersService {
         };
     }
 
-    async updateUser(id: string, user: any): Promise<{ message: string }> {
+    async updateUser(id: string, user: any) {
         const userUpdate = await this.usersRepository.findOneBy({id});
         if (!userUpdate) {
             throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);
@@ -69,7 +76,7 @@ export class UsersService {
         }
     }
 
-    async deleteUser(id: string): Promise<{ message: string }> {
+    async deleteUser(id: string) {
         const userFound = await this.usersRepository.findOneBy({id});
         if (!userFound) {
             throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);

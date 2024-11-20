@@ -49,7 +49,7 @@ export class OrdersService {
                 )
 
                 return product 
-            }), // encontrar por id y stock, sumar precio y reducir el stock
+            }), 
         )
 
         const orderDetail = new OrderDetail();

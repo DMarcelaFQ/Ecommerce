@@ -15,6 +15,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const categories_module_1 = require("./categories/categories.module");
 const orders_module_1 = require("./orders/orders.module");
+const files_upload_module_1 = require("./files-upload/files-upload.module");
 const typeorm_2 = require("./config/typeorm");
 let AppModule = class AppModule {
 };
@@ -34,7 +35,8 @@ exports.AppModule = AppModule = __decorate([
                 useFactory: (configService) => configService.get('typeorm')
             }),
             categories_module_1.CategoriesModule,
-            orders_module_1.OrdersModule
+            orders_module_1.OrdersModule,
+            files_upload_module_1.FilesUploadModule
         ],
         controllers: [],
         providers: [],

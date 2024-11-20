@@ -1,11 +1,11 @@
 import { UserLoginDto } from "src/dto/user.interface";
-import { UsersRepository } from "src/Users/users.repository";
+import { User } from "src/entities/users.entity";
+import { Repository } from "typeorm";
 export declare class AuthService {
-    private readonly usersRepository;
-    constructor(usersRepository: UsersRepository);
+    private usersRepository;
+    constructor(usersRepository: Repository<User>);
     login(userLogin: UserLoginDto): Promise<{
         message: string;
-        userId: number;
-        email: string;
+        user: string;
     }>;
 }

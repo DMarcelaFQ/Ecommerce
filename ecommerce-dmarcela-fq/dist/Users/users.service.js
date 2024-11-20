@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("../entities/users.entity");
 const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -56,7 +57,12 @@ let UsersService = class UsersService {
         if (existingUser) {
             throw new common_1.ConflictException(`El correo ${user.email} ya está registrado.`);
         }
-        const newUser = this.usersRepository.create(user);
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+        const newUser = this.usersRepository.create({
+            ...user,
+            password: hashedPassword,
+        });
         await this.usersRepository.save(newUser);
         return {
             message: "Usuario creado con éxito",

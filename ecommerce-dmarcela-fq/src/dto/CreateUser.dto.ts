@@ -45,7 +45,13 @@ export class CreateUserDto {
     city: string;
 }
 
-export class loginUserDto extends PickType(
-    CreateUserDto, 
-    ['email','password']
-) {}
+export class loginUserDto {
+    @IsNotEmpty()
+    @IsString()
+    @IsEmail()
+    email: string;
+
+    @IsNotEmpty()
+    @MinLength(8)
+    password: string;
+}

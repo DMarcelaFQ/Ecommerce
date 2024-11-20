@@ -7,7 +7,7 @@ export declare class CreateUserDto {
     country: string;
     city: string;
 }
-declare const loginUserDto_base: import("@nestjs/common").Type<Pick<CreateUserDto, "email" | "password">>;
-export declare class loginUserDto extends loginUserDto_base {
+export declare class loginUserDto {
+    email: string;
+    password: string;
 }
-export {};

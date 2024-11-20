@@ -62,12 +62,12 @@ export class ProductsService {
         return product
     }
     
-    async createProduct(product: Product): Promise<Product> {
+    async createProduct(product: Product) {
         const newProduct = this.productsRepository.create(product);
         return await this.productsRepository.save(newProduct);
     }
     
-    async updateProduct(id: string, product: Partial<Product>): Promise<Product> {
+    async updateProduct(id: string, product: Partial<Product>) {
         const productUpdate = await this.productsRepository.findOneBy({ id });
         if (!productUpdate) {
             throw new NotFoundException(`Producto con ID ${id} no encontrado.`);
