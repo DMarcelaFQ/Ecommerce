@@ -18,7 +18,7 @@ export class UsersService {
         const users = await this.usersRepository.find({
             skip: start, 
             take: limit,
-            select: ['id', 'name', 'email', 'address', 'phone', 'country', 'city'],
+            select: ['id', 'name', 'email', 'address', 'phone', 'country', 'city', 'isAdmin'],
         });
         if(users.length === 0) {
             throw new NotFoundException('No se encontraron usuarios en la base de datos.');

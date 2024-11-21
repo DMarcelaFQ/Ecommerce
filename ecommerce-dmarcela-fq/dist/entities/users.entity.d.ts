@@ -8,5 +8,6 @@ export declare class User {
     phone: number;
     country: string;
     city: string;
+    isAdmin: boolean;
     orders: Order[];
 }

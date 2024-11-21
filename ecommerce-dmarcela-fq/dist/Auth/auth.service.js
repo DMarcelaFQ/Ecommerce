@@ -36,7 +36,7 @@ let AuthService = class AuthService {
             password: hashedPassword,
         });
         const savedUser = await this.usersRepository.save(newUser);
-        const { password, ...userWithoutPassword } = savedUser;
+        const { password, isAdmin, ...userWithoutPassword } = savedUser;
         return {
             message: "Usuario creado con éxito",
             userWithoutPassword,
@@ -54,13 +54,14 @@ let AuthService = class AuthService {
         const userPayload = {
             sub: user.id,
             id: user.id,
-            email: user.email
+            email: user.email,
+            isAdmin: user.isAdmin
         };
         const token = this.jwtService.sign(userPayload);
         return {
             message: "Usuario loggeado con éxito",
             user: user.id,
-            token
+            token,
         };
     }
 };

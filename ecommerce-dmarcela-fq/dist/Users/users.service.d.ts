@@ -17,6 +17,7 @@ export declare class UsersService {
         phone: number;
         country: string;
         city: string;
+        isAdmin: boolean;
     }>;
     updateUser(id: string, user: Partial<User>): Promise<{
         message: string;

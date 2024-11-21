@@ -48,6 +48,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "isAdmin", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => orders_entity_1.Order, (order) => order.user),
     (0, typeorm_1.JoinColumn)({ name: 'orders_id' }),
     __metadata("design:type", Array)

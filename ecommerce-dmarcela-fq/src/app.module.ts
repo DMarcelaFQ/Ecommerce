@@ -16,6 +16,11 @@ import { JwtModule } from '@nestjs/jwt';
     UsersModule, 
     ProductsModule, 
     AuthModule,
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: '1h'},
+      secret: process.env.JWT_SECRET,
+    }),
     ConfigModule.forRoot({
       isGlobal:true,
       load: [typeorm]
@@ -32,11 +37,6 @@ import { JwtModule } from '@nestjs/jwt';
     
     FilesUploadModule,
 
-    JwtModule.register({
-      global: true,
-      signOptions: { expiresIn: '1h'},
-      secret: process.env.JWT_SECRET,
-    })
   ],
 
   controllers: [],

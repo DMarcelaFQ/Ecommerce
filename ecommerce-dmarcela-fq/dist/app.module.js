@@ -27,6 +27,11 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             products_module_1.ProductsModule,
             auth_module_1.AuthModule,
+            jwt_1.JwtModule.register({
+                global: true,
+                signOptions: { expiresIn: '1h' },
+                secret: process.env.JWT_SECRET,
+            }),
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 load: [typeorm_2.default]
@@ -38,11 +43,6 @@ exports.AppModule = AppModule = __decorate([
             categories_module_1.CategoriesModule,
             orders_module_1.OrdersModule,
             files_upload_module_1.FilesUploadModule,
-            jwt_1.JwtModule.register({
-                global: true,
-                signOptions: { expiresIn: '1h' },
-                secret: process.env.JWT_SECRET,
-            })
         ],
         controllers: [],
         providers: [],

@@ -2,6 +2,9 @@ import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Pu
 import { ProductsService } from "./products.service";
 import { AuthGuard } from "src/Auth/guards/auth.guard";
 import { Product } from "src/entities/products.entity";
+import { Roles } from "src/decorators/roles.decorator";
+import { Role } from "src/roles.enum";
+import { RolesGuard } from "src/Auth/guards/roles.guard";
 
 @Controller ('products')
 export class ProductsController {
@@ -34,7 +37,8 @@ export class ProductsController {
     }
 
     @Put(':id')
-    @UseGuards(AuthGuard)
+    @Roles(Role.ADMIN)
+    @UseGuards(AuthGuard, RolesGuard)
     updateProduct(@Param('id', ParseUUIDPipe) id:string, @Body() product: any){
         return this.productsService.updateProduct(id, product)
     }
