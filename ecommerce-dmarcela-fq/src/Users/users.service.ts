@@ -43,28 +43,8 @@ export class UsersService {
             })),
         };
     }
-    
-    async createUser(user: any) {
-        const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
-        if (existingUser) {
-            throw new ConflictException(`El correo ${user.email} ya está registrado.`);
-        }
 
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
-        
-        const newUser = this.usersRepository.create({
-            ...user,
-            password: hashedPassword,
-        });
-        await this.usersRepository.save(newUser);
-
-        return {
-            message: "Usuario creado con éxito",
-        };
-    }
-
-    async updateUser(id: string, user: any) {
+    async updateUser(id: string, user: Partial<User>) {
         const userUpdate = await this.usersRepository.findOneBy({id});
         if (!userUpdate) {
             throw new NotFoundException(`Usuario con ID ${id} no encontrado.`);

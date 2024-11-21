@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesUploadRepository = void 0;
 const common_1 = require("@nestjs/common");
 const cloudinary_1 = require("cloudinary");
-const buffer_to_stream_1 = require("buffer-to-stream");
+const toStream = require("buffer-to-stream");
 let FilesUploadRepository = class FilesUploadRepository {
     async uploadImage(file) {
         return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ let FilesUploadRepository = class FilesUploadRepository {
                     resolve(result);
                 }
             });
-            (0, buffer_to_stream_1.default)(file.buffer).pipe(upload);
+            toStream(file.buffer).pipe(upload);
         });
     }
 };

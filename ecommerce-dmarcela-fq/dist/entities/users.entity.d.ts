@@ -5,7 +5,7 @@ export declare class User {
     name: string;
     password: string;
     address: string;
-    phone: string;
+    phone: number;
     country: string;
     city: string;
     orders: Order[];

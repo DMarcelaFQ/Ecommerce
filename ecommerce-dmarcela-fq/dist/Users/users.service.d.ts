@@ -14,14 +14,11 @@ export declare class UsersService {
         name: string;
         password: string;
         address: string;
-        phone: string;
+        phone: number;
         country: string;
         city: string;
     }>;
-    createUser(user: any): Promise<{
-        message: string;
-    }>;
-    updateUser(id: string, user: any): Promise<{
+    updateUser(id: string, user: Partial<User>): Promise<{
         message: string;
     }>;
     deleteUser(id: string): Promise<{

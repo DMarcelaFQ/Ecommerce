@@ -20,7 +20,7 @@ export class User {
     address: string;
 
     @Column({type: 'bigint'})
-    phone: string;
+    phone: number;
 
     @Column({ type:'varchar', length: 50, nullable: true })
     country: string;

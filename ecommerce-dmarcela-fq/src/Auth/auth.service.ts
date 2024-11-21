@@ -1,18 +1,44 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserLoginDto } from "src/dto/user.interface";
 import { User } from "src/entities/users.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
+    
     constructor(
         @InjectRepository(User)
-        private usersRepository: Repository<User>
+        private usersRepository: Repository<User>,
+        private readonly jwtService: JwtService
     ) {}
 
-    async login(userLogin: UserLoginDto) {
+    async createUser(user: Partial<User>) {
+        const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
+        if (existingUser) {
+            throw new ConflictException(`El correo ${user.email} ya está registrado.`);
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+        
+        const newUser = this.usersRepository.create({
+            ...user,
+            password: hashedPassword,
+        });
+        const savedUser = await this.usersRepository.save(newUser);
+
+        const { password, ...userWithoutPassword } = savedUser;
+
+        return {
+            message: "Usuario creado con éxito",
+            userWithoutPassword,
+        };
+    }
+
+    async login(userLogin: Partial<User>) {
         const user = await this.usersRepository.findOne({ where: { email: userLogin.email } });
         if (!user) {
             throw new NotFoundException(`No se puede iniciar sesion. Email o password incorrectos`);
@@ -22,9 +48,18 @@ export class AuthService {
         if (!passwordMatch) {
             throw new NotFoundException(`No se puede iniciar sesion. Email o password incorrectos`);
         }
+
+        const userPayload = {
+            sub: user.id,
+            id: user.id,
+            email: user.email
+        }
+        const token = this.jwtService.sign(userPayload)
+
         return {
             message: "Usuario loggeado con éxito",
-            user: user.id
+            user: user.id,
+            token
         }
     }
 }

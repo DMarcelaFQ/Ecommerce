@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUserDto = exports.CreateUserDto = void 0;
 const class_validator_1 = require("class-validator");
+const matchPassword_decorator_1 = require("../decorators/matchPassword.decorator");
 class CreateUserDto {
 }
 exports.CreateUserDto = CreateUserDto;
@@ -35,6 +36,11 @@ __decorate([
     (0, class_validator_1.MinLength)(8),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.Validate)(matchPassword_decorator_1.MatchPassword, ['password']),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "confirmPassword", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),

@@ -37,7 +37,7 @@ __decorate([
 ], User.prototype, "address", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'bigint' }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], User.prototype, "phone", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),

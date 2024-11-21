@@ -16,7 +16,6 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const auth_guard_1 = require("../Auth/guards/auth.guard");
-const CreateUser_dto_1 = require("../dto/CreateUser.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -29,9 +28,6 @@ let UsersController = class UsersController {
     }
     getUserById(id) {
         return this.usersService.getUserById(id);
-    }
-    createUser(user) {
-        return this.usersService.createUser(user);
     }
     updateUser(id, user) {
         return this.usersService.updateUser(id, user);
@@ -58,14 +54,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUserById", null);
-__decorate([
-    (0, common_1.HttpCode)(201),
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUser_dto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "createUser", null);
 __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),

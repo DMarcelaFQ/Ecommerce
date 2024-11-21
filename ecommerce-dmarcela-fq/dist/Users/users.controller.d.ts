@@ -14,12 +14,9 @@ export declare class UsersController {
         name: string;
         password: string;
         address: string;
-        phone: string;
+        phone: number;
         country: string;
         city: string;
-    }>;
-    createUser(user: CreateUserDto): Promise<{
-        message: string;
     }>;
     updateUser(id: string, user: Partial<CreateUserDto>): Promise<{
         message: string;
