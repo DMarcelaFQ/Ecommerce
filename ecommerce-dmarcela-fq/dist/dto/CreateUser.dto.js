@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUserDto = exports.CreateUserDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const matchPassword_decorator_1 = require("../decorators/matchPassword.decorator");
 class CreateUserDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { email: { required: true, type: () => String, description: "@description Esta propiedad debe contener obligatoriamente un email y no puede omitirse", example: "shoucito@gmail.com", format: "email" }, name: { required: true, type: () => String, description: "@description Esta propiedad debe contener obligatoriamente un string y no puede omitirse", minLength: 3, maxLength: 80 }, password: { required: true, type: () => String, description: "@description La contrase\u00F1a debe contener al menos una letra min\u00FAscula, una letra may\u00FAscula, un n\u00FAmero y uno de los siguientes caracteres especiales: !@#$%^&*. Este campo es obligatorio", example: "Shouthebestcat2!", minLength: 8, pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).+$/" }, confirmPassword: { required: true, type: () => String, description: "@description Aqui confirme la contrase\u00F1a introducida en el campo anterior. Este campo es obligatorio", example: "Shouthebestcat2!" }, address: { required: true, type: () => String, description: "@description Este campo es un String. Este campo es obligatorio", minLength: 3, maxLength: 80 }, phone: { required: true, type: () => Number, description: "@description Este campo es un Numero. Este campo es obligatorio", example: 1234567 }, country: { required: true, type: () => String, description: "@description Este campo es un String. Este campo es obligatorio", example: "Colombia", minLength: 5, maxLength: 20 }, city: { required: true, type: () => String, description: "@description Este campo es un String. Este campo es obligatorio", example: "Palmira", minLength: 5, maxLength: 20 }, isAdmin: { required: false, type: () => Boolean, description: "@description Este campo no debe enviarse en la solicitud (Eliminar). Esta definidio por el administrador de la base de datos." } };
+    }
 }
 exports.CreateUserDto = CreateUserDto;
 __decorate([
@@ -72,6 +76,9 @@ __decorate([
     __metadata("design:type", Boolean)
 ], CreateUserDto.prototype, "isAdmin", void 0);
 class loginUserDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { email: { required: true, type: () => String, description: "@description Esta propiedad debe contener obligatoriamente un email y no puede omitirse", example: "aslan@gmail.com", format: "email" }, password: { required: true, type: () => String, description: "@description La contrase\u00F1a debe contener al menos una letra min\u00FAscula, una letra may\u00FAscula, un n\u00FAmero y uno de los siguientes caracteres especiales: !@#$%^&*. Este campo es obligatorio", example: "AslitanTheBestMichi2!", minLength: 8 } };
+    }
 }
 exports.loginUserDto = loginUserDto;
 __decorate([

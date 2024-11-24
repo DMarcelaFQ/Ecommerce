@@ -3,7 +3,7 @@ import { Repository } from "typeorm";
 export declare class UsersService {
     private usersRepository;
     constructor(usersRepository: Repository<User>);
-    getUsers(page: number, limit: number): Promise<User[]>;
+    getUsers(page: number, limit: number): Promise<Partial<User[]>>;
     getUserById(id: string): Promise<{
         orders: {
             id: string;

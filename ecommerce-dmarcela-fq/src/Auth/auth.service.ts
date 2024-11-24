@@ -14,7 +14,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async createUser(user: Partial<User>) {
+    async createUser(user: Partial<User>): Promise<{message: string; user: Partial<User>}> {
         const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
         if (existingUser) {
             throw new ConflictException(`El correo ${user.email} ya está registrado.`);
@@ -33,7 +33,7 @@ export class AuthService {
 
         return {
             message: "Usuario creado con éxito",
-            userWithoutPassword,
+            user: userWithoutPassword,
         };
     }
 

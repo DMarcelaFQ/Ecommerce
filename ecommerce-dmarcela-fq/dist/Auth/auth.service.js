@@ -39,7 +39,7 @@ let AuthService = class AuthService {
         const { password, isAdmin, ...userWithoutPassword } = savedUser;
         return {
             message: "Usuario creado con éxito",
-            userWithoutPassword,
+            user: userWithoutPassword,
         };
     }
     async login(userLogin) {

@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/entities/users.entity";
 import { Repository } from "typeorm";
-import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,7 @@ export class UsersService {
         private usersRepository: Repository<User>
     ) {}
     
-    async getUsers(page:number, limit:number) {
+    async getUsers(page:number, limit:number): Promise<Partial<User[]>> {
         const start = (page - 1)*limit;
         
         const users = await this.usersRepository.find({

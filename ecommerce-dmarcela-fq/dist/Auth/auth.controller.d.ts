@@ -5,16 +5,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     createUser(user: CreateUserDto): Promise<{
         message: string;
-        userWithoutPassword: {
-            id: string;
-            email: string;
-            name: string;
-            address: string;
-            phone: number;
-            country: string;
-            city: string;
-            orders: import("../entities/orders.entity").Order[];
-        };
+        user: Partial<import("../entities/users.entity").User>;
     }>;
     login(userLogin: loginUserDto): Promise<{
         message: string;

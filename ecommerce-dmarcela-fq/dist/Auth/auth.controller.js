@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const CreateUser_dto_1 = require("../dto/CreateUser.dto");
@@ -31,6 +32,7 @@ exports.AuthController = AuthController;
 __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)('signup'),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateUser_dto_1.CreateUserDto]),
@@ -38,6 +40,7 @@ __decorate([
 ], AuthController.prototype, "createUser", null);
 __decorate([
     (0, common_1.Post)('login'),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateUser_dto_1.loginUserDto]),

@@ -7,16 +7,7 @@ export declare class AuthService {
     constructor(usersRepository: Repository<User>, jwtService: JwtService);
     createUser(user: Partial<User>): Promise<{
         message: string;
-        userWithoutPassword: {
-            id: string;
-            email: string;
-            name: string;
-            address: string;
-            phone: number;
-            country: string;
-            city: string;
-            orders: import("../entities/orders.entity").Order[];
-        };
+        user: Partial<User>;
     }>;
     login(userLogin: Partial<User>): Promise<{
         message: string;

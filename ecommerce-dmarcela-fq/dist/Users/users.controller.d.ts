@@ -19,7 +19,7 @@ export declare class UsersController {
         city: string;
         isAdmin: boolean;
     }>;
-    updateUser(id: string, user: Partial<CreateUserDto>): Promise<{
+    updateUser(id: string, user: CreateUserDto): Promise<{
         message: string;
     }>;
     deleteUser(id: string): Promise<{
