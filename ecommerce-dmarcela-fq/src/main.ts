@@ -13,13 +13,11 @@ async function bootstrap() {
   .setVersion('1.0')
   .addBearerAuth()
   .build()
-  
   const document = SwaggerModule.createDocument(app, swaggerConfig)
+  SwaggerModule.setup('api', app, document, {customSiteTitle:'Ecommerce API'});
   
   const loggerMiddleware = new LoggerMiddleware();
   app.use(loggerMiddleware.use);
-
-  SwaggerModule.setup('api', app, document, {customSiteTitle:'Ecommerce API'});
   
   app.useGlobalPipes(new ValidationPipe())
   

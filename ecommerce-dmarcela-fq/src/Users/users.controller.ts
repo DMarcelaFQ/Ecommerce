@@ -33,7 +33,7 @@ export class UsersController {
     @ApiBearerAuth()
     @Put(':id')
     @UseGuards(AuthGuard)
-    updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: CreateUserDto){
+    updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: any){
         return this.usersService.updateUser(id, user)
     }
 

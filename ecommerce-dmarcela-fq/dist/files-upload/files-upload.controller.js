@@ -19,6 +19,8 @@ const files_upload_service_1 = require("./files-upload.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const auth_guard_1 = require("../Auth/guards/auth.guard");
 const swagger_1 = require("@nestjs/swagger");
+const roles_decorator_1 = require("../decorators/roles.decorator");
+const roles_enum_1 = require("../roles.enum");
 let FilesUploadController = class FilesUploadController {
     constructor(filesUploadService) {
         this.filesUploadService = filesUploadService;
@@ -43,6 +45,7 @@ __decorate([
         },
     }),
     (0, common_1.Post)('uploadImage/:productId'),
+    (0, roles_decorator_1.Roles)(roles_enum_1.Role.ADMIN),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     openapi.ApiResponse({ status: 201 }),

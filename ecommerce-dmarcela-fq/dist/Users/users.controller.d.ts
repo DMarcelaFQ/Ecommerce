@@ -1,5 +1,4 @@
 import { UsersService } from "./users.service";
-import { CreateUserDto } from "src/dto/CreateUser.dto";
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -15,11 +14,12 @@ export declare class UsersController {
         password: string;
         address: string;
         phone: number;
+        birthdate: Date;
         country: string;
         city: string;
         isAdmin: boolean;
     }>;
-    updateUser(id: string, user: CreateUserDto): Promise<{
+    updateUser(id: string, user: any): Promise<{
         message: string;
     }>;
     deleteUser(id: string): Promise<{

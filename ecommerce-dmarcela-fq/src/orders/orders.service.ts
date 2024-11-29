@@ -85,7 +85,7 @@ export class OrdersService {
         });
 
         if (!order) {
-            throw new Error(`Orden con ID ${id} no encontrada.`);
+            throw new NotFoundException(`Orden con ID ${id} no encontrada.`);
         }
 
         const orderFound = {

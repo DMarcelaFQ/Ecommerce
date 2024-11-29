@@ -74,7 +74,7 @@ let OrdersService = class OrdersService {
             },
         });
         if (!order) {
-            throw new Error(`Orden con ID ${id} no encontrada.`);
+            throw new common_1.NotFoundException(`Orden con ID ${id} no encontrada.`);
         }
         const orderFound = {
             id: order.id,

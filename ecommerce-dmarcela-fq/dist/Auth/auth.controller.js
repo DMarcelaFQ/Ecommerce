@@ -22,7 +22,11 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     createUser(user) {
-        return this.authService.createUser(user);
+        const userWithDate = {
+            ...user,
+            birthdate: new Date(user.birthdate),
+        };
+        return this.authService.createUser(userWithDate);
     }
     login(userLogin) {
         return this.authService.login(userLogin);

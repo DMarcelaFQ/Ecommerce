@@ -22,6 +22,9 @@ export class User {
     @Column({type: 'bigint'})
     phone: number;
 
+    @Column({type: 'date'})
+    birthdate: Date;
+
     @Column({ type:'varchar', length: 50, nullable: true })
     country: string;
 

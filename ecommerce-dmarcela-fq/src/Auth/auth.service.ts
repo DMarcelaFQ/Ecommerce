@@ -22,9 +22,12 @@ export class AuthService {
 
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
+        const birthdate = new Date(user.birthdate);
         
         const newUser = this.usersRepository.create({
             ...user,
+            birthdate: birthdate,
             password: hashedPassword,
         });
         const savedUser = await this.usersRepository.save(newUser);

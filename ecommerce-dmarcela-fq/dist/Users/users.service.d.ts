@@ -15,6 +15,7 @@ export declare class UsersService {
         password: string;
         address: string;
         phone: number;
+        birthdate: Date;
         country: string;
         city: string;
         isAdmin: boolean;

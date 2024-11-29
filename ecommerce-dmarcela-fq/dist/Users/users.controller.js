@@ -17,7 +17,6 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const auth_guard_1 = require("../Auth/guards/auth.guard");
-const CreateUser_dto_1 = require("../dto/CreateUser.dto");
 const roles_decorator_1 = require("../decorators/roles.decorator");
 const roles_enum_1 = require("../roles.enum");
 const roles_guard_1 = require("../Auth/guards/roles.guard");
@@ -73,7 +72,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, CreateUser_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUser", null);
 __decorate([

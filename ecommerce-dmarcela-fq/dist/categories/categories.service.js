@@ -23,7 +23,6 @@ let CategoriesService = class CategoriesService {
         this.categoriesRepository = categoriesRepository;
     }
     async addCategories() {
-        const filteredCategories = [];
         data.map(async (product) => {
             await this.categoriesRepository
                 .createQueryBuilder()
@@ -33,7 +32,7 @@ let CategoriesService = class CategoriesService {
                 .onConflict(`("name") DO NOTHING`)
                 .execute();
         });
-        return "Categories added";
+        return `Se han añadido las categorías`;
     }
 };
 exports.CategoriesService = CategoriesService;

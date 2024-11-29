@@ -8,8 +8,12 @@ export class AuthController {
 
     @HttpCode(201)
     @Post('signup')
-    createUser(@Body() user:CreateUserDto){
-        return this.authService.createUser(user);
+    createUser(@Body() user: CreateUserDto){
+        const userWithDate = {
+            ...user,
+            birthdate: new Date(user.birthdate),
+        };
+        return this.authService.createUser(userWithDate);
     }
 
     @Post('login')

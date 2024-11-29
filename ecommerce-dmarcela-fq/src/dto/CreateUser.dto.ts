@@ -82,6 +82,10 @@ export class CreateUserDto {
     @MaxLength(20)
     city: string;
 
+    @IsNotEmpty()
+    @IsString()
+    birthdate:string;
+
     /**
      * @description Este campo no debe enviarse en la solicitud (Eliminar). Esta definidio por el administrador de la base de datos.
      */

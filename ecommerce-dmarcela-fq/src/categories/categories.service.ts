@@ -12,7 +12,7 @@ export class CategoriesService {
   ) {}
   
   async addCategories() {
-    const filteredCategories = []
+
     data.map(async (product) => {
       await this.categoriesRepository
       .createQueryBuilder()
@@ -22,6 +22,6 @@ export class CategoriesService {
       .onConflict(`("name") DO NOTHING`)
       .execute()
     })
-    return "Categories added"
+    return `Se han añadido las categorías`
   }
 }

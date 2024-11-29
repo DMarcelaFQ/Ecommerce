@@ -7,6 +7,7 @@ export declare class CreateUserDto {
     phone: number;
     country: string;
     city: string;
+    birthdate: string;
     isAdmin?: boolean;
 }
 export declare class loginUserDto {

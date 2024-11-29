@@ -14,9 +14,9 @@ async function bootstrap() {
         .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, swaggerConfig);
+    swagger_1.SwaggerModule.setup('api', app, document, { customSiteTitle: 'Ecommerce API' });
     const loggerMiddleware = new logger_middleware_1.LoggerMiddleware();
     app.use(loggerMiddleware.use);
-    swagger_1.SwaggerModule.setup('api', app, document, { customSiteTitle: 'Ecommerce API' });
     app.useGlobalPipes(new common_1.ValidationPipe());
     await app.listen(process.env.PORT ?? 3000);
 }
