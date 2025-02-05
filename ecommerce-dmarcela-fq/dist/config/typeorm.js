@@ -4,7 +4,7 @@ exports.connectionSource = void 0;
 const config_1 = require("@nestjs/config");
 const dotenv_1 = require("dotenv");
 const typeorm_1 = require("typeorm");
-(0, dotenv_1.config)({ path: '.env.development' });
+(0, dotenv_1.config)({ path: '.env' });
 const config = {
     type: 'postgres',
     database: `${process.env.DB_NAME}` || 'localhost',
